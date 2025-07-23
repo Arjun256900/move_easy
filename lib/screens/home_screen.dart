@@ -22,10 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const HomeTab(),
-    const FreshhandsScreen(),
+    FreshhandsScreen(),
     const PartnerScreen(),
     const BookingsScreen(),
-    AccountScreen(),
+    const AccountScreen(),
   ];
 
   @override

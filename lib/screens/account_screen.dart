@@ -1,632 +1,296 @@
 import 'package:flutter/material.dart';
 
-class AccountScreen extends StatefulWidget {
+class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
-}
-
-class _AccountScreenState extends State<AccountScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  bool _darkMode = false;
-  bool _isLoggingOut = false;
-  bool _isUpdating = false;
-  String _language = 'en';
-  final Map<String, bool> _notifications = {
-    'orderUpdates': true,
-    'promotions': false,
-    'partnerUpdates': true,
-    'emailNotifications': false,
-  };
-
-  final Map<String, String> _formData = {
-    'name': 'John Doe',
-    'email': 'john@example.com',
-    'phone': '+91 98765 43210',
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  void _toggleDarkMode() {
-    setState(() {
-      _darkMode = !_darkMode;
-    });
-  }
-
-  void _toggleNotification(String key) {
-    setState(() {
-      _notifications[key] = !_notifications[key]!;
-    });
-  }
-
-  void _handleLanguageChange(String? value) {
-    if (value != null) {
-      setState(() {
-        _language = value;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final ColorScheme _blueScheme = const ColorScheme.light(
+      primary: Color.fromARGB(255, 27, 80, 158),
+      secondary: Color(0xFF1976D2),
+      surface: Colors.white,
+      background: Color(0xFFF5F9FF),
+      onPrimary: Colors.white,
+    );
+
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 40),
-            const Text(
-              'Account',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 24),
-            // Profile Card
-            Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    height: 120,
-                    color: Theme.of(context).primaryColor,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 16,
-                          bottom: -48,
-                          child: CircleAvatar(
-                            radius: 48,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                              radius: 44,
-                              backgroundColor: Colors.grey[200],
-                              child: const Icon(Icons.person, size: 40),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 16,
-                          right: 16,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              _tabController.animateTo(1);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 56),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _formData['name']!,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const Icon(Icons.person, size: 14),
-                            const SizedBox(width: 4),
-                            Text(
-                              _formData['phone']!,
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            const Icon(Icons.location_on, size: 14),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Cityville, India',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            // Tab Bar
-            Container(
+      backgroundColor: _blueScheme.background,
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(
+            child: Container(
+              height: 180.0,
+              width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).primaryColor,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [_blueScheme.primary, _blueScheme.secondary],
                 ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black,
-                tabs: const [
-                  Tab(text: 'Profile'),
-                  Tab(text: 'Settings'),
-                  Tab(text: 'Rewards'),
+              ),
+              padding: const EdgeInsets.only(top: 60.0, left: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'My Account',
+                    style: TextStyle(
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Manage your profile and settings',
+                    style: TextStyle(fontSize: 14.0, color: Colors.white70),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            // Tab Content
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // Profile Tab
-                  _buildProfileTab(),
-                  // Settings Tab
-                  _buildSettingsTab(),
-                  // Rewards Tab
-                  _buildRewardsTab(),
-                ],
-              ),
+          ),
+
+          SliverToBoxAdapter(child: _buildProfileCard(_blueScheme)),
+          SliverToBoxAdapter(
+            child: _buildSectionTitle('Profile Information', _blueScheme),
+          ),
+          SliverToBoxAdapter(child: _buildProfileInfoCard(_blueScheme)),
+          SliverToBoxAdapter(
+            child: _buildSectionTitle('Saved Addresses', _blueScheme),
+          ),
+          SliverToBoxAdapter(child: _buildAddressCard(_blueScheme)),
+          SliverToBoxAdapter(
+            child: _buildSectionTitle('Preferences', _blueScheme),
+          ),
+          SliverToBoxAdapter(child: _buildPreferencesCard(_blueScheme)),
+          SliverToBoxAdapter(
+            child: _buildSectionTitle('Rewards Program', _blueScheme),
+          ),
+          SliverToBoxAdapter(child: _buildRewardsCard(_blueScheme)),
+          SliverToBoxAdapter(
+            child: _buildSectionTitle('Recent Orders', _blueScheme),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _buildOrderItem(index, _blueScheme),
+              childCount: 3,
             ),
-          ],
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 40)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileCard(ColorScheme scheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 104,
+                height: 104,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [scheme.primary, scheme.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.person, size: 40, color: Color(0xFF0D47A1)),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: scheme.secondary,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: const Icon(Icons.edit, size: 18, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'John Doe',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'john.doe@example.com',
+            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildStatItem('12', 'Orders', scheme),
+                _buildStatItem('₹4,560', 'Spent', scheme),
+                _buildStatItem('320', 'Points', scheme),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String value, String label, ColorScheme scheme) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: scheme.primary,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+      ],
+    );
+  }
+
+  Widget _buildSectionTitle(String title, ColorScheme scheme) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: scheme.primary,
         ),
       ),
     );
   }
 
-  Widget _buildProfileTab() {
-    return ListView(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Profile Information',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildFormField('Full Name', Icons.person, 'name'),
-                const SizedBox(height: 16),
-                _buildFormField('Email Address', Icons.email, 'email'),
-                const SizedBox(height: 16),
-                _buildFormField(
-                  'Phone Number',
-                  Icons.phone,
-                  'phone',
-                  enabled: false,
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Phone number cannot be changed',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _isUpdating = true;
-                    });
-                    Future.delayed(const Duration(seconds: 1), () {
-                      setState(() {
-                        _isUpdating = false;
-                      });
-                    });
-                  },
-                  child: _isUpdating
-                      ? const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text('Saving...'),
-                          ],
-                        )
-                      : const Text('Save Changes'),
-                ),
-              ],
-            ),
+  Widget _buildProfileInfoCard(ColorScheme scheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Saved Addresses',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildAddressItem(
-                  Icons.home,
-                  'Home',
-                  '123 Main St, Cityville, State - 123456',
-                ),
-                const SizedBox(height: 16),
-                _buildAddressItem(
-                  Icons.business,
-                  'Work',
-                  '456 Office Park, Townsburg, State - 654321',
-                ),
-                const SizedBox(height: 16),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add New Address'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'My Orders',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildOrderItem(
-                  Icons.inventory,
-                  'Household Shipment',
-                  'Mar 15, 2025 • In Transit',
-                ),
-                const SizedBox(height: 16),
-                OutlinedButton(
-                  onPressed: () {},
-                  child: const Text('View All Orders'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSettingsTab() {
-    return ListView(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const Row(
-                  children: [
-                    Icon(Icons.dark_mode),
-                    SizedBox(width: 16),
-                    Text(
-                      'Appearance',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(_darkMode ? Icons.dark_mode : Icons.light_mode),
-                        const SizedBox(width: 8),
-                        const Text('Dark Mode'),
-                      ],
-                    ),
-                    Switch(
-                      value: _darkMode,
-                      onChanged: (value) => _toggleDarkMode(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Language',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  value: _language,
-                  items: const [
-                    DropdownMenuItem(value: 'en', child: Text('English')),
-                    DropdownMenuItem(
-                      value: 'hi',
-                      child: Text('हिन्दी (Hindi)'),
-                    ),
-                    DropdownMenuItem(value: 'ta', child: Text('தமிழ் (Tamil)')),
-                    DropdownMenuItem(
-                      value: 'te',
-                      child: Text('తెలుగు (Telugu)'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'kn',
-                      child: Text('ಕನ್ನಡ (Kannada)'),
-                    ),
-                  ],
-                  onChanged: _handleLanguageChange,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Notifications',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildNotificationSwitch('Order Updates', 'orderUpdates'),
-                const SizedBox(height: 16),
-                _buildNotificationSwitch('Promotions & Offers', 'promotions'),
-                const SizedBox(height: 16),
-                _buildNotificationSwitch('Partner Updates', 'partnerUpdates'),
-                const SizedBox(height: 16),
-                _buildNotificationSwitch(
-                  'Email Notifications',
-                  'emailNotifications',
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Privacy & Security',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildPrivacySwitch('Location Sharing', true),
-                const SizedBox(height: 16),
-                _buildPrivacySwitch('Data Collection', true),
-                const SizedBox(height: 16),
-                _buildPrivacySwitch('Personalized Ads', false),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const Text(
-                  'Account Actions',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.help),
-                  label: const Text('Help & Support'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                    alignment: Alignment.centerLeft,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      _isLoggingOut = true;
-                    });
-                    Future.delayed(const Duration(seconds: 1), () {
-                      setState(() {
-                        _isLoggingOut = false;
-                      });
-                    });
-                  },
-                  icon: _isLoggingOut
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.logout),
-                  label: _isLoggingOut
-                      ? const Text('Logging out...')
-                      : const Text('Logout'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                    alignment: Alignment.centerLeft,
-                    foregroundColor: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRewardsTab() {
-    return Card(
-      clipBehavior: Clip.antiAlias,
+        ],
+      ),
       child: Column(
         children: [
-          Container(
-            height: 160,
-            color: Colors.grey[300],
-            child: Stack(
+          _buildInfoRow(Icons.phone, 'Phone', '+91 98765 43210', scheme),
+          const Divider(height: 1, indent: 20),
+          _buildInfoRow(Icons.location_on, 'Location', 'Mumbai, India', scheme),
+          const Divider(height: 1, indent: 20),
+          _buildInfoRow(
+            Icons.calendar_today,
+            'Member Since',
+            'Jan 2023',
+            scheme,
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(
+    IconData icon,
+    String title,
+    String value,
+    ColorScheme scheme,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          Icon(icon, color: scheme.secondary, size: 24),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Positioned.fill(child: Container(color: Colors.blue[800])),
-                Positioned.fill(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black54],
-                      ),
-                    ),
-                  ),
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
-                Positioned(
-                  left: 16,
-                  bottom: 16,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Earn Rewards',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Get points for every booking and redeem for discounts',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ),
+                const SizedBox(height: 4),
+                Text(value, style: const TextStyle(fontSize: 16)),
               ],
             ),
           ),
+          Icon(Icons.chevron_right, color: Colors.grey[400]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddressCard(ColorScheme scheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildAddressItem('Home', '123 Main St, Mumbai', scheme),
+          const Divider(height: 1, indent: 20),
+          _buildAddressItem('Work', '456 Corporate Park, Andheri', scheme),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Available Points',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.card_giftcard,
-                        size: 32,
-                        color: Colors.blue[700],
-                      ),
-                    ],
-                  ),
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Add New Address'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: scheme.primary,
+                side: BorderSide(color: scheme.primary),
+                minimumSize: const Size.fromHeight(44),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.card_giftcard),
-                  label: const Text('Redeem Points'),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.share),
-                  label: const Text('Invite Friends'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                  ),
-                ),
-              ],
+              ),
+              onPressed: () {},
             ),
           ),
         ],
@@ -634,149 +298,233 @@ class _AccountScreenState extends State<AccountScreen>
     );
   }
 
-  Widget _buildFormField(
-    String label,
-    IconData icon,
-    String key, {
-    bool enabled = true,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+  Widget _buildAddressItem(String title, String address, ColorScheme scheme) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      leading: Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: scheme.primary.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(Icons.location_on, color: scheme.primary, size: 24),
+      ),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Text(address),
+      trailing: Icon(Icons.chevron_right, color: Colors.grey[400]),
+    );
+  }
+
+  Widget _buildPreferencesCard(ColorScheme scheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildPreferenceItem('Dark Mode', false, scheme),
+          const Divider(height: 1, indent: 20),
+          _buildPreferenceItem('Email Notifications', true, scheme),
+          const Divider(height: 1, indent: 20),
+          _buildPreferenceItem('Push Notifications', true, scheme),
+          const Divider(height: 1, indent: 20),
+          _buildPreferenceItem('Location Services', false, scheme),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPreferenceItem(String title, bool value, ColorScheme scheme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          Expanded(child: Text(title, style: const TextStyle(fontSize: 16))),
+          Switch(value: value, onChanged: (v) {}, activeColor: scheme.primary),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRewardsCard(ColorScheme scheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [scheme.primary, scheme.secondary],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.primary.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 16),
-            const SizedBox(width: 8),
-            Text(label),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(Icons.star, color: Colors.amber),
+                ),
+                const SizedBox(width: 16),
+                const Text(
+                  'Premium Member',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Reward Points',
+              style: TextStyle(fontSize: 16, color: Colors.white70),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '320',
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.amber,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: scheme.primary,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text('Redeem Points'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.white),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Earn More',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-        const SizedBox(height: 8),
-        TextFormField(
-          initialValue: _formData[key],
-          enabled: enabled,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 14,
+      ),
+    );
+  }
+
+  Widget _buildOrderItem(int index, ColorScheme scheme) {
+    final orders = [
+      {
+        'title': 'Office Supplies',
+        'status': 'Delivered',
+        'date': '15 Mar 2023',
+      },
+      {
+        'title': 'Electronics Order',
+        'status': 'In Transit',
+        'date': '12 Mar 2023',
+      },
+      {
+        'title': 'Household Items',
+        'status': 'Processing',
+        'date': '10 Mar 2023',
+      },
+    ];
+
+    final order = orders[index];
+
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, index == 0 ? 8 : 0, 20, 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
+        leading: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: scheme.primary.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(Icons.local_shipping, color: scheme.primary),
+        ),
+        title: Text(order['title']!),
+        subtitle: Text(order['date']!),
+        trailing: Chip(
+          backgroundColor: order['status'] == 'Delivered'
+              ? Colors.green[100]
+              : order['status'] == 'In Transit'
+              ? Colors.amber[100]
+              : Colors.blue[100],
+          label: Text(
+            order['status']!,
+            style: TextStyle(
+              color: order['status'] == 'Delivered'
+                  ? Colors.green[800]
+                  : order['status'] == 'In Transit'
+                  ? Colors.amber[800]
+                  : Colors.blue[800],
             ),
-            filled: !enabled,
-            fillColor: Colors.grey[100],
-          ),
-          onChanged: (value) {
-            setState(() {
-              _formData[key] = value;
-            });
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAddressItem(IconData icon, String title, String subtitle) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: Theme.of(context).primaryColor, size: 16),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right, size: 20),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-            ],
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildOrderItem(IconData icon, String title, String subtitle) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: Theme.of(context).primaryColor, size: 16),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right, size: 20),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNotificationSwitch(String label, String key) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label),
-        Switch(
-          value: _notifications[key]!,
-          onChanged: (value) => _toggleNotification(key),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPrivacySwitch(String label, bool value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label),
-        Switch(value: value, onChanged: (value) {}),
-      ],
+      ),
     );
   }
 }

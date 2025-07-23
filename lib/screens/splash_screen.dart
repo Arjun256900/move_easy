@@ -1,7 +1,9 @@
 // splash_screen.dart
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:move_easy/screens/language_selection.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,7 +28,10 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/language');
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(builder: (context) => LanguageSelectionScreen()),
+      );
     });
   }
 

@@ -1,19 +1,10 @@
-// freshhands_screen.dart
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:move_easy/widgets/become_a_partner.dart';
 import 'package:move_easy/widgets/freshhand_card.dart';
 
-const Color kPrimaryBlue = Color(0xFF0A7BDA);
-const Color kPrimaryLight = Color(0xFF42A5F5);
+class FreshhandsScreen extends StatelessWidget {
+  FreshhandsScreen({Key? key}) : super(key: key);
 
-class FreshhandsScreen extends StatefulWidget {
-  const FreshhandsScreen({super.key});
-
-  @override
-  State<FreshhandsScreen> createState() => _FreshhandsScreenState();
-}
-
-class _FreshhandsScreenState extends State<FreshhandsScreen> {
   final List<Map<String, String>> services = [
     {
       'title': 'House Cleaning',
@@ -63,7 +54,7 @@ class _FreshhandsScreenState extends State<FreshhandsScreen> {
     {
       'title': 'Security Systems',
       'subtitle': 'CCTV and security installation',
-      'image': 'assets/images/security_systems.png',
+      'image': 'assets/images/security_systems.jpg',
     },
     {
       'title': 'Furniture Moving',
@@ -79,67 +70,81 @@ class _FreshhandsScreenState extends State<FreshhandsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Fresh Hand Services',
-              style: GoogleFonts.poppins(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Fresh Hands Services',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              'Professional home services for your new page',
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                color: Colors.grey.withOpacity(0.92),
+              SizedBox(height: 4),
+              Text(
+                'Professional home services for your new place',
+                style: TextStyle(color: Colors.grey[600], fontSize: 14),
               ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    blurRadius: 10,
-                    spreadRadius: 2,
+            ],
+          ),
+          automaticallyImplyLeading: false,
+        ),
+        backgroundColor: Colors.grey[50],
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            // Search bar
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search for services...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 0,
+                    ),
                   ),
-                ],
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search services...',
-                  hintStyle: GoogleFonts.poppins(color: Colors.grey.shade400),
-                  prefixIcon: Icon(Icons.search, color: kPrimaryBlue),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
-            const SizedBox(height: 25),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            // Grid of service cards
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              sliver: SliverGrid(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final service = services[index];
+                  return FreshhandCard(
+                    title: service['title']!,
+                    subtitle: service['subtitle']!,
+                    imagePath: service['image']!,
+                  );
+                }, childCount: services.length),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.75, // Adjusted for text wrapping
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
+                  childAspectRatio: 0.85,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
                 ),
-                itemCount: services.length,
-                itemBuilder: (context, index) => FreshhandCard(
-                  title: services[index]['title']!,
-                  subtitle: services[index]['subtitle']!,
-                  imagePath: services[index]['image']!,
-                ),
+              ),
+            ),
+            // Become a Partner widget at end
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: BecomeAPartner(),
               ),
             ),
           ],
