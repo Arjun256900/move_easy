@@ -1,10 +1,10 @@
-// home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:move_easy/screens/electricians_tab.dart';
-import 'package:move_easy/screens/plumbers_tab.dart';
-import 'package:move_easy/screens/profile_tab.dart';
+import 'package:move_easy/screens/account_screen.dart';
+import 'package:move_easy/screens/bookings_screen.dart';
+import 'package:move_easy/screens/freshhands_screen.dart';
+import 'package:move_easy/screens/partner_screen.dart';
 
 const Color kPrimaryBlue = Color(0xFF0A7BDA);
 const Color kPrimaryLight = Color(0xFF42A5F5);
@@ -22,9 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const HomeTab(),
-    const ElectriciansTab(),
-    const PlumbersTab(),
-    const ProfileTab(),
+    const FreshhandsScreen(),
+    const PartnerScreen(),
+    const BookingsScreen(),
+    AccountScreen(),
   ];
 
   @override
@@ -81,23 +82,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 _currentIndex == 1 ? Iconsax.flash_15 : Iconsax.flash,
                 size: 24,
               ),
-              label: 'Electricians',
+              label: 'Fresh Hands',
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                _currentIndex == 2 ? Iconsax.drop3 : Iconsax.drop,
+                _currentIndex == 2 ? Icons.handshake : Icons.handshake_outlined,
                 size: 24,
               ),
-              label: 'Plumbers',
+              label: 'Partner',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 _currentIndex == 3
+                    ? Icons.date_range_outlined
+                    : Icons.date_range,
+                size: 24,
+              ),
+              label: 'Bookings',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _currentIndex == 4
                     ? Iconsax.profile_circle5
                     : Iconsax.profile_circle,
                 size: 24,
               ),
-              label: 'Profile',
+              label: 'Account',
             ),
           ],
         ),
@@ -146,39 +156,38 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 14,
-            crossAxisSpacing: 10,
-            childAspectRatio: 0.9,
-            children: [
-              _buildServiceItem(
-                Iconsax.truck,
-                'Relocation',
-                'assets/images/relocation.png',
-                'Helping you relocate across cities',
-              ),
-              _buildServiceItem(
-                Iconsax.home,
-                'Home Cleaning',
-                'assets/images/home_cleaning.png',
-                'He who cleans expects visitors',
-              ),
-              _buildServiceItem(
-                Iconsax.flash_circle,
-                'Electrician',
-                'assets/images/electrician.png',
-                'Lights out? Never again.',
-              ),
-              _buildServiceItem(
-                Iconsax.drop,
-                'Plumber',
-                'assets/images/plumber.png',
-                'Slippery floors? Better fix it before the mighty fall',
-              ),
-            ],
+          SizedBox(
+            height: 200,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.only(right: 20),
+              children: [
+                _buildServiceItem(
+                  Iconsax.truck,
+                  'Relocation',
+                  'assets/images/relocation.png',
+                  'Helping you relocate across cities',
+                ),
+                _buildServiceItem(
+                  Iconsax.home,
+                  'Home Cleaning',
+                  'assets/images/home_cleaning.png',
+                  'He who cleans expects visitors',
+                ),
+                _buildServiceItem(
+                  Iconsax.flash_circle,
+                  'Electrician',
+                  'assets/images/electrician.png',
+                  'Lights out? Never again.',
+                ),
+                _buildServiceItem(
+                  Iconsax.drop,
+                  'Plumber',
+                  'assets/images/plumber.png',
+                  'Slippery floors? Better fix it before the mighty fall',
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 30),
           Row(
@@ -201,7 +210,6 @@ class HomeTab extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20),
               scrollDirection: Axis.horizontal,
               children: const [
-                // Replace with ProfessionalCard widgets
                 ProfessionalCard(
                   name: 'Arun Kumar',
                   rating: 4.9,
@@ -300,63 +308,66 @@ class HomeTab extends StatelessWidget {
     String imagePath,
     String subtitle,
   ) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kCardRadius),
-      ),
-      elevation: 4,
-      shadowColor: kPrimaryBlue.withOpacity(0.2),
-      color: Colors.white,
-      child: Stack(
-        children: [
-          // Icon & title at the top
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: kPrimaryBlue,
+    return SizedBox(
+      width: 200,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kCardRadius),
+        ),
+        elevation: 4,
+        shadowColor: kPrimaryBlue.withOpacity(0.2),
+        color: Colors.white,
+        child: Stack(
+          children: [
+            // Icon & title at the top
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: kPrimaryBlue,
+                          ),
                         ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.poppins(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: kPrimaryBlue,
+                        Text(
+                          subtitle,
+                          style: GoogleFonts.poppins(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: kPrimaryBlue,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-
-          // Image at bottom-right
-          Positioned(
-            bottom: 8,
-            right: 8,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                imagePath,
-                width: 78,
-                height: 78,
-                fit: BoxFit.cover,
+                ],
               ),
             ),
-          ),
-        ],
+
+            // Image at bottom-right
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  imagePath,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

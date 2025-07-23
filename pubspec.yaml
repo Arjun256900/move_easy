@@ -37,6 +37,11 @@ dependencies:
   google_fonts:
   iconsax:
   flutter_svg:
+  lucide_icons:
+  intl:
+  fluttertoast:
+  image_picker:
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:
