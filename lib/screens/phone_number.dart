@@ -1,8 +1,6 @@
-// phone_number.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:move_easy/screens/otp_screen.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
