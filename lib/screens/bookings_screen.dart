@@ -11,7 +11,10 @@ class _BookingsScreenState extends State<BookingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [Center(child: Text('Bookings'))]),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Center(child: Text('Bookings'))],
+      ),
     );
   }
 }
